@@ -14,7 +14,7 @@ int inChar;
 Stepper myStepper(stepsPerRevolution, 8, 9, 10, 11);
 
 void setup() {
-  myStepper.setSpeed(20);
+  myStepper.setSpeed(30);
   // Open serial communications and wait for port to open:
   Serial.begin(115200);
   while (!Serial) {

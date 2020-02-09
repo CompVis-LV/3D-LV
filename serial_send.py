@@ -2,7 +2,7 @@
 
 
 import serial, time
-arduino = serial.Serial('/dev/ttyUSB1', 115200, timeout=.1)
+arduino = serial.Serial('/dev/ttyUSB0', 115200, timeout=.1)
 time.sleep(1) #give the connection a second to settle
 
 while True:
