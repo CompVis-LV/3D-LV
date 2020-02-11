@@ -1,7 +1,6 @@
 
 
 def serialAngle(data):
-    data = 90
     import serial, time
 
     arduino = serial.Serial('COM3', 115200, timeout=.1)
@@ -32,9 +31,8 @@ def serialAngle(data):
         print(repr(accept.rstrip('\n'.encode())))
         accept = (accept.rstrip('\n'.encode()))
         if accept == '1\r'.encode():
-            #return True
-            break
+            return True
         if  time.time() > timeout:
-            #return False
-            break
+            return False
+
 

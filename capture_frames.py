@@ -3,7 +3,7 @@ import numpy as np                        # fundamental package for scientific c
 import matplotlib.pyplot as plt           # 2D plotting library producing publication quality figures
 import pyrealsense2 as rs 
 
-def captureFrames(boole):
+def captureFrames(ang, location):
     # Setup:
     pipe = rs.pipeline()
     cfg = rs.config()
@@ -28,15 +28,15 @@ def captureFrames(boole):
 
     # RGB IMage 
     color = np.asanyarray(color_frame.get_data())
-    plt.rcParams["axes.grid"] = False
-    plt.rcParams['figure.figsize'] = [12, 6]
-    plt.imshow(color)
+    #plt.rcParams["axes.grid"] = False
+    #plt.rcParams['figure.figsize'] = [12, 6]
+    #plt.imshow(color)
     #plt.imsave('file.png', color)
 
     # Depth image
     colorizer = rs.colorizer()
     colorized_depth = np.asanyarray(colorizer.colorize(depth_frame).get_data())
-    plt.imshow(colorized_depth)
+    #plt.imshow(colorized_depth)
 
 
 
@@ -48,13 +48,16 @@ def captureFrames(boole):
     aligned_depth_frame = frameset.get_depth_frame()
     colorized_depth = np.asanyarray(colorizer.colorize(aligned_depth_frame).get_data())
 
+    namec = location + str(ang) + '_colour.png'
+    named = location + str(ang) + '_depth.png'
+
     # Save aligned images
-    plt.imsave('color.png', color)
-    plt.imsave('depth.png', colorized_depth)
+    plt.imsave(namec, color)
+    plt.imsave(named, colorized_depth)
 
     # Show the two frames together:
-    images = np.hstack((color, colorized_depth))
-    plt.imshow(images)
-    plt.show()
+    #images = np.hstack((color, colorized_depth))
+    #plt.imshow(images)
+    #plt.show()
 
     return;
