@@ -48,8 +48,9 @@ void loop() {
       Serial.println (newAngle);
 
       a = newAngle - angle;
-      deg = ((a + 180) % 360) - 180;
-      rev = deg / 1.8;
+      //deg = ((a + 180) % 360) - 180;
+      rev = ((a + 100) % 200) - 100;
+      //rev = deg / 1.8;
       angle = newAngle;
 
       // step one revolution  in one direction:
