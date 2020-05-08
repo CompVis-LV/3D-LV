@@ -2,9 +2,12 @@ cmake_minimum_required(VERSION 2.8)
 
 project(CAPE)
 
-find_package(OpenCV REQUIRED)
-find_package(Eigen3 REQUIRED)
+set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${CMAKE_CURRENT_SOURCE_DIR}//home/jaredub/opencv/build)
 
+SET("OpenCV_DIR" "home/jaredub/opencv/build")
+
+find_package(OpenCV REQUIRED PATHS "home/jaredub/opencv/build")
+find_package(Eigen3 3.3 REQUIRED NO_MODULE)
 
 set (CMAKE_CXX_FLAGS "-O2")
 
