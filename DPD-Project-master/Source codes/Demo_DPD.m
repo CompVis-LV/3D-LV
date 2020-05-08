@@ -2,11 +2,18 @@ clear
 clc
 load('.\colormap.mat');
 %% ================== generate seed  =======================
-i=1;
-data_dir='.\SR4000_test_images';
-im_base_name = sprintf( 'Scene%d', i );
-im_file = sprintf( '%s\\%s.bmp', data_dir, im_base_name );
+i=3;
+data_dir = '..\..\Datasets\user';
+%data_dir = '..\DPD_test_images\SR4000_test_images';
+im_base_name = sprintf( '%d_Depth', i );
+%im_base_name = sprintf( 'Scene%d', i );
+im_file = sprintf( '%s\\%s.png', data_dir, im_base_name);
+%im_file = sprintf( '%s\\%s.bmp', data_dir, im_base_name);
 im_d = double(imread(im_file));
+%im_d = uint8(255 * mat2gray(im_d))
+a = max(max(im_d));
+b = min(min(im_d));
+%%
 seeds_data_in.initial_seeds_shape = ones(4);
 seeds_data_in.seed_shape = 'square';
 seeds_data_in.order_of_generating_seeds = 'RasterScan';
@@ -39,7 +46,9 @@ figure;image(uint8(fields_data_out.fields));colormap(settelments_colormap);
 %% ================== under-grwowing correction  =======================
 fields_data_out1 =  under_growing_correction(fields_data_out);
 figure;image(uint8(fields_data_out1.parallel_surface_detection.field_index));colormap(settelments_colormap); axis off;
-
+if exist('temp.bmp', 'file')==2
+  delete('temp.bmp');
+end
 %% ================== calculate ROC  =======================
 
 if i==1
