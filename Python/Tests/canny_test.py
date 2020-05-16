@@ -7,7 +7,7 @@ import cv2
 
 
 # load the image, convert it to grayscale, and blur it slightly
-image = cv2.imread('2_colour.png')
+image = cv2.imread("C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\user\\colour_Color.png")
 gray = cv2.cvtColor(image, cv2.COLOR_BGR2GRAY)
 blurred = cv2.GaussianBlur(gray, (3, 3), 0)
 # apply Canny edge detection using a wide threshold, tight
