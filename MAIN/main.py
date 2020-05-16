@@ -20,10 +20,10 @@ def angle_between(v1, v2):
 
 def main():
     #IMPORT IMAGE
-    colourImagePath = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\test7\\2_colour.png"
-    depthImagePath = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\test7\\2_depth.png"
-    #colourImagePath = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\user\\hexagon.png"
-    #depthImagePath = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\user\\hexagon.png"
+    #colourImagePath = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\test7\\2_colour.png"
+    #depthImagePath = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\test7\\2_depth.png"
+    colourImagePath = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\user\\hexagon.png"
+    depthImagePath = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\user\\hexagon.png"
     image = cv2.imread(colourImagePath)
     depthImageHoley = cv2.imread(depthImagePath)
     depthImage = fh.fill_holes(depthImageHoley)
@@ -43,7 +43,7 @@ def main():
     # Create dictionary to link infomration
     faces = {}
     for count in range(value):
-        thisdict = dict(polygon=polygons[count], joins=[])
+        thisdict = dict(polygon=polygons[count], joins=set())
         faces["%s" % (count)] = thisdict
     print(faces)
     #LINK POLYGON EDGES - Identify joining polygons
