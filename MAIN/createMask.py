@@ -43,18 +43,6 @@ def mask_off(mask, image):
     print(mask[50,50,:])
     print(image[50,50,:])
     print(image1[50,50,:])
-    # image2 = np.where(mask, image[:,:,2], np.nan)
-    # image0 = np.where(mask, image[:,:,0], np.nan)
-
-    #Newimage = np.empty((height, width, 3))
-    # Newimage[:,:,1] = image1
-    # Newimage[:,:,2] = image2
-    # Newimage[:,:,0] = image0
-    #Newimage = np.dstack((image0,image1, image2))
-    # current_cmap = plt.cm.get_cmap()
-    # current_cmap.set_bad(color='red')
-    # plt.imshow((image1).astype(np.uint8))
-    # plt.waitforbuttonpress()
     return ((image1).astype(np.uint8))
 
 def mask_off_average(mask, image):
@@ -84,9 +72,11 @@ def replace_masked_average(mask, image):
     # plt.waitforbuttonpress()
     return ((imageMaskAv)), vector      #.astype(np.uint8))
 
+
 def main():
     image = cv2.imread('C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\user\\0_depth.png')
     mask3d, depth = create_mask(image)
+    ground_mask = create_ground_mask(image)
     print(depth)
     #maskedImage = mask_off(mask3d, image)
     # cv2.imshow("Masked Image", maskedImage)

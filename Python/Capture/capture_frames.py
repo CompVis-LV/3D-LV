@@ -24,7 +24,6 @@ def captureFrames(roi = [0, 0, 639, 479], ang = 0, location = ""):
     sensor_roi.min_y, sensor_roi.max_y = int(roi[1]), int(roi[1] + roi[3])
     roi_sensor.set_region_of_interest(sensor_roi)
 
-
     # Skip 30 first frames to give the Auto-Exposure time to adjust
     for x in range(30):
         pipe.wait_for_frames()
@@ -32,26 +31,13 @@ def captureFrames(roi = [0, 0, 639, 479], ang = 0, location = ""):
     # Store next frameset for later processing:
     frameset = pipe.wait_for_frames()
     color_frame = frameset.get_color_frame()
-    depth_frame = frameset.get_depth_frame()
 
     # Cleanup:
     pipe.stop()
     print("Frames Captured")
 
-
     # RGB IMage 
     color = np.asanyarray(color_frame.get_data())
-    #plt.rcParams["axes.grid"] = False
-    #plt.rcParams['figure.figsize'] = [12, 6]
-    #plt.imshow(color)
-    #plt.imsave('file.png', color)
-
-    # Depth image
-    colorizer = rs.colorizer()
-    colorized_depth = np.asanyarray(colorizer.colorize(depth_frame).get_data())
-    #plt.imshow(colorized_depth)
-
-
 
     # Create alignment primitive with color as its target stream:
     align = rs.align(rs.stream.color)
@@ -59,14 +45,39 @@ def captureFrames(roi = [0, 0, 639, 479], ang = 0, location = ""):
 
     # Update color and depth frames:
     aligned_depth_frame = frameset.get_depth_frame()
-    colorized_depth = np.asanyarray(colorizer.colorize(aligned_depth_frame).get_data())
+
+    #filter definition
+    dec_filter = rs.decimation_filter() # Decimation - reduces depth frame density
+    spat_filter = rs.spatial_filter() # Spatial - edge-preserving spatial smoothing
+    temp_filter = rs.temporal_filter() # Temporal - reduces temporal noise
+
+    depth_to_disparity = rs.disparity_transform(True)
+    disparity_to_depth = rs.disparity_transform(False)
+
+    #Using Filtering
+    #frame = dec_filter.process(aligned_depth_frame)
+    spat_filter.set_option(rs.option.filter_magnitude, 4)
+    spat_filter.set_option(rs.option.holes_fill, 1)
+    frame = depth_to_disparity.process(aligned_depth_frame)
+    frame = spat_filter.process(frame)
+    frame = temp_filter.process(frame)
+    frame = disparity_to_depth.process(frame)
+
+    colorizer = rs.colorizer()
+    raw_depth = np.asanyarray((frame).get_data())
+    comp = np.asanyarray((aligned_depth_frame).get_data())
+    colorized_depth = np.asanyarray(colorizer.colorize(frame).get_data())
 
     namec = location + str(ang) + '_colour.png'
     named = location + str(ang) + '_depth.png'
+    namer = location + str(ang) + '_raw.png'
+    test = location + str(ang) + '_hole.png'
 
     # Save aligned images
     plt.imsave(namec, color)
+    plt.imsave(namer, raw_depth)
     plt.imsave(named, colorized_depth)
+    plt.imsave(test, comp)
 
     # Show the two frames together:
     #images = np.hstack((color, colorized_depth))

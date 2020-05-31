@@ -42,4 +42,5 @@ def serialAngle(data = 40):
 
 
 if __name__ == "__main__":
-    serialAngle()
+    accept = serialAngle()
+    print(accept)

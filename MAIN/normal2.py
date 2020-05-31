@@ -6,7 +6,6 @@ import cv2
 import signal
 import createMask as cm
 import extractPolygons as ep
-
 from functools import wraps
 import errno
 import os
@@ -49,11 +48,11 @@ def extract_normals(d_im):
 def remove_noise_layer(normals, itm):
     h,w,d = normals.shape
     print("Normals extracted, removing noise")
-    for i in range(1,shape[1]-1):
-        for j in range(1,shape[0]-1):
+    for i in range(1,w-1):
+        for j in range(1,h-1):
             if ("%s%s%s" % (normals[j,i,0], normals[j,i,1], normals[j,i,2])) == itm:
                 normals[j,i,:] = np.nan
-                print("nannafide")
+                #print("nannafide")
     return normals
 
 
@@ -63,8 +62,8 @@ def main():
     shape = np.empty([1,3])
     normals, itm = extract_normals(d_im)
     print(itm)
-    #normals = remove_noise_layer(normals, itm)
-    #print("Noise removed, create a mask")
+    normals = remove_noise_layer(normals, itm)
+    print("Noise removed, create a mask")
     cv2.imshow("Normals", normals)
     cv2.waitKey(0)
     number = ep.face_amount(normals)

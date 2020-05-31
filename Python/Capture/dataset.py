@@ -6,7 +6,7 @@ import os
 import cv2
 
 # define the name of the directory to be created
-path = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\test12\\"
+path = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\test15\\"
 
 try:
     os.mkdir(path)
@@ -30,11 +30,11 @@ else:
     for ang in range(12):
         ang = ang*2
         cont = False
-        #cont = sa.serialAngle(20)
-
+        cont = sa.serialAngle(20)
+        time.sleep(2)
         print(cont)
 
-        if cont == True:
+        if cont == False:
             print("Error changing angle")
             break
 
