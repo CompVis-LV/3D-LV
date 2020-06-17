@@ -80,12 +80,13 @@ def csv_write_raw(faces, filename = "file.csv"):
             writer.writerow(row)
 
 def csv_write_pl(faces, filename = "file.csv"):
-    allrows = [[],[],[]]
+    allrows = []
     count = 0
     for face, name in faces.items():
         print(face)
         print(name)
-        allrows[count] = [face, len(name['polygon']), name['joins'], name['angle'], name['vector']]
+        print(count)
+        allrows.append([face, len(name['polygon']), name['joins'], name['angle'], name['vector']])
         count += 1
         print("rows = ", allrows)
 
@@ -114,10 +115,11 @@ def ground_vector():
 
 
 def main():
-    os.chdir(r"C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\cube copy")
+    os.chdir(r"C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\cube")
     grdV = ground_vector()
-    for x in range(8, 43, 2):
+    for x in range(0, 43, 2):
         #IMPORT IMAGE
+        x = 12
         colourImagePath = "%s_colour.png" % (x)
         depthImagePath = "%s_depth.png" % (x)
         #colourImagePath = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\user\\hexagon.png"
@@ -126,13 +128,13 @@ def main():
 
         #FILL MISSING DATA IN DEPTH IMAGE
         #depthImage = cv2.imread(depthImagePath)
-        depthImageHoley = cv2.imread(depthImagePath)
-        depthImage = fh.fill_holes(depthImageHoley)
+        # depthImageHoley = cv2.imread(depthImagePath)
+        # depthImage = fh.fill_holes(depthImageHoley)
+        depthImage = cv2.imread(depthImagePath)
         # cv2.imshow("Start Image", image)
         # cv2.waitKey(0)
         # cv2.imshow("Start Image", depthImage)
         # cv2.waitKey(0)
-
         #CREATE MASK
         mask = image.copy()
         layers = 0
@@ -141,7 +143,7 @@ def main():
         maskedImage = cm.mask_off(mask, image)
         cv2.imwrite( "%s_maskedImage.png" % (x), (maskedImage).astype(np.uint8))
         maskedDepthImage = cm.mask_off(mask, depthImage)
-
+        cv2.imwrite( "%s_maskedDepthImage.png" % (x), (maskedDepthImage).astype(np.uint8))
         #EXTRACT POLYGONS
         value = ep.face_amount(maskedImage)
         polygons = ep.extract_polygons(maskedImage, value)

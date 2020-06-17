@@ -46,6 +46,8 @@ def extract_normals(d_im):
     return normals, itm
 
 def remove_noise_layer(normals, itm):
+    #is normals with mask??
+    #imshow(normals)
     h,w,d = normals.shape
     print("Normals extracted, removing noise")
     for i in range(1,w-1):

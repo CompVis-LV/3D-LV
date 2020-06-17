@@ -21,7 +21,7 @@ def serialAngle(data = 40):
     angle = str(data)
     angle = angle + "\n"
 
-    print(angle)
+    #print(angle)
 
     arduino.write(angle.encode())
 
@@ -33,7 +33,7 @@ def serialAngle(data = 40):
 
     while nextInput == False:
         accept = arduino.readline()
-        print(repr(accept.rstrip('\n'.encode())))
+        #print(repr(accept.rstrip('\n'.encode())))
         accept = (accept.rstrip('\n'.encode()))
         if accept == '1\r'.encode():
             return True
@@ -42,5 +42,5 @@ def serialAngle(data = 40):
 
 
 if __name__ == "__main__":
-    accept = serialAngle()
+    accept = serialAngle(100)
     print(accept)

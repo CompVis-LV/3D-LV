@@ -3,12 +3,14 @@
 
 function [lines, image] = haughTransformWORKING(img, rad, sharp, N, FillGap, MinLength)
 
-    RGB = imread(img);
-    A  = rgb2gray(RGB);
+    %RGB = imread(img);
+    %A  = rgb2gray(RGB);
 
-    image = imsharpen(A,'Radius',rad,'Amount',sharp);
+    image = imsharpen(img,'Radius',rad,'Amount',sharp);
 
     BW = edge(image,'canny');
+    BW = bwareaopen(BW,30);
+    imshow(BW)
 
     [H,theta,rho] = hough(BW);
 

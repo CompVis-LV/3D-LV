@@ -6,7 +6,7 @@ import os
 import cv2
 
 # define the name of the directory to be created
-path = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\test15\\"
+path = "C:\\Users\\Jared\\Documents\\ECTE458\\3D-LV\\Datasets\\cubeTest\\"
 
 try:
     os.mkdir(path)
@@ -22,10 +22,11 @@ else:
     im = cv2.imread("0_depth.png")
     # Select ROI
     r = cv2.selectROI(im)
-    print(r[0])
-    print(r[1])
-    print(r[2])
-    print(r[3])
+    cv2.destroyAllWindows()
+    # print(r[0])
+    # print(r[1])
+    # print(r[2])
+    # print(r[3])
 
     for ang in range(12):
         ang = ang*2
@@ -40,8 +41,6 @@ else:
 
         print("Environment Ready")
         cf.captureFrames(r, ang, location)
-
-        time.sleep(2)
         print("Done")
 
 

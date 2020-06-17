@@ -1,19 +1,40 @@
 clear
 clc
 
-addpath(genpath('C:\Users\Jared\Documents\Thesis'))
 addpath(genpath('C:\Users\Jared\Documents\ECTE458\3D-LV'))
-cd C:\Users\Jared\Documents\Thesis
+cd C:\Users\Jared\Documents\ECTE458\3D-LV\Datasets\parallelogram
+RGB = '10_maskedImage.png';
+RGB = imread(RGB);
+[rows, columns, numberOfColorChannels] = size(RGB);
+img = rgb2gray(RGB);
+low = 0;
+high = 0.7;
+img = imadjust(img,[low high],[]); % I is double
+%img = imfilter(img, ones(4)/16);
+imgB = imgaussfilt(img, 2);
+[gradThresh,numIter] = imdiffuseest(imgB);
 
-img = '2.png';
+disp(gradThresh)
+disp(numIter)
 
-[lines, image] = haughTransformWORKING(img, 2, 0.5, 10, 50, 70);
+imgC = imdiffusefilt(imgB,'GradientThreshold', [2, 2],'NumberOfIterations',2);
+
+imgD = imsharpen(imgC,'Radius',2,'Amount',1.5);
+
+multi = cat(3,img,imgB,imgC,imgD);
+montage(multi, 'size', [1, NaN]);
+
+%%
+
+[lines, image] = haughTransformWORKING(imgD, 5, 0.3, 10, 10, 70);
+plotLines(lines, image);
 
 linesJoined = joinVertices(lines, 50);
+plotLines(linesJoined, image);
 
 linesRemJoined = removeRedundant(linesJoined);
-
 plotLines(linesRemJoined, image);
+
 %%
 polygons = [];
 

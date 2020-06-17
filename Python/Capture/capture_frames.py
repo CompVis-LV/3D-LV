@@ -80,10 +80,9 @@ def captureFrames(roi = [0, 0, 639, 479], ang = 0, location = ""):
     plt.imsave(test, comp)
 
     # Show the two frames together:
-    #images = np.hstack((color, colorized_depth))
-    #plt.imshow(images)
-    #plt.show()
-
+    images = np.hstack((color, colorized_depth))
+    cv2.imshow("CAPTURED FRAMES", images)
+    cv2.waitKey(0)
     return;
 
 
